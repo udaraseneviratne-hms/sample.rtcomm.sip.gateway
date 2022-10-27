@@ -30,15 +30,8 @@ import javax.media.mscontrol.MsControlException;
 import javax.media.mscontrol.networkconnection.CodecPolicy;
 import javax.media.mscontrol.networkconnection.NetworkConnection;
 import javax.servlet.ServletException;
-import javax.servlet.sip.Address;
-import javax.servlet.sip.B2buaHelper;
-import javax.servlet.sip.SipFactory;
-import javax.servlet.sip.SipServlet;
-import javax.servlet.sip.SipServletRequest;
-import javax.servlet.sip.SipServletResponse;
-import javax.servlet.sip.SipSession;
+import javax.servlet.sip.*;
 import javax.servlet.sip.SipSession.State;
-import javax.servlet.sip.SipURI;
 
 import net.wasdev.rtcommsipgateway.callmgr.CallRecord;
 import net.wasdev.rtcommsipgateway.callmgr.CallsManager;
@@ -166,76 +159,14 @@ public class WebRTCGatewayServlet extends SipServlet{
 	 */
 	protected void doInvite(SipServletRequest req) throws ServletException,
 	IOException {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("doInvite. req="+req);
-		}
+		req.getSession().setHandler(SipUtils.SERLVET_NAME);
 
-		initJSR309Driver();
-		
-		if (SipUtils.validateSipInviteRequest(req) == false){
-			return;
-		}
-		else if (shouldProcessInvite(req)) {
-
-			req.getSession().setHandler(SipUtils.SERLVET_NAME);
-
-			try {
-				
-				/**
-				 * First create the call record to keep up with the latest state for this call.
-				 */
-				CallRecord record = new CallRecord(req);
-				s_callsManager.addCallRecord(record);
-				req.getSession().setAttribute(CallsManager.CALL_RECORD_ID_ATTRIBUTE, record.getCallRecordId());
-
-				boolean isWebRTC = record.getCallee().isWebRTC();
-
-				/*
-				 *  Here we generate the offer to send to the callee.
-				 */
-				if (log.isLoggable(Level.FINE)) {
-					log.fine("doInvite: create new media server network connection and SDP for callee");
-				}
-				NetworkConnection calleeNC = JSR309Utils.createCustomNetworkConnection(isWebRTC);
-				calleeNC.getMediaSession().setAttribute(SipUtils.INITIAL_INVITE_ATTRIBUTE, req);
-
-				// use the same listener because both caller and callee have the same call record id.
-				calleeNC.getSdpPortManager().addListener(new MediaServerEventListener(record));
-
-				//	SIP Trunking supports audio only. This is the code that removes video from the SDP.
-				//	Note that this is critical to get audio to playback in Chrome
-				String[] mediaTypeCaps = new String[1];
-				mediaTypeCaps[0] = "audio";
-				CodecPolicy codecPolicy = calleeNC.getSdpPortManager().getCodecPolicy();
-				codecPolicy.setMediaTypeCapabilities(mediaTypeCaps);
-				calleeNC.getSdpPortManager().setCodecPolicy(codecPolicy);
-
-				// the callback method for this request will handled in PHASE 1 in ConnectorSDPPortEventListener.
-				calleeNC.getSdpPortManager().generateSdpOffer();
-
-			} catch (MsControlException e) {
-				log.warning("doInvite -  processSdpOffer failed.");
-				e.printStackTrace();
-			}
-		}
-		else{
-			/**
-			 * Note that a DAR should be set up so that every originating INVITE flows through this application.
-			 * This else statements takes care of forwarding outbound INVITES that should not be processed by
-			 * this applic
-			 */
-			if (log.isLoggable(Level.WARNING)) {
-				log.warning("doInvite: ERROR: received an INVITE that should not be processed!!!");
-			}
-			//
-			//			ArrayList<URI> destinations = new ArrayList<URI>();
-			//			destinations.add(req.getRequestURI());
-			//
-			//			Proxy proxy = req.getProxy();
-			//			proxy.setSupervised(false);
-			//			proxy.setRecordRoute(false);
-			//			proxy.createProxyBranches(destinations);
-			//			proxy.startProxy();
+		System.out.println("####### Called DoInvite" + req.isInitial());
+		if (req.isInitial()) {
+			Proxy proxy = req.getProxy();
+			proxy.setRecordRoute(true);
+			proxy.setSupervised(true);
+			proxy.proxyTo(req.getRequestURI()); // bobs uri
 		}
 	}
 
