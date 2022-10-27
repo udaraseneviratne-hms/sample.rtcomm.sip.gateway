@@ -38,6 +38,13 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.openliberty.features</groupId>
+			<artifactId>sipServlet-1.1</artifactId>
+			<type>esa</type>
+			<version>21.0.0.3</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
