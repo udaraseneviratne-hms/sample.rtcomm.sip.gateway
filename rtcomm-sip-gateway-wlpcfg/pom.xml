@@ -71,13 +71,13 @@
 							<goal>install-feature</goal>
 						</goals>
 
-						<configuration>
-							<features>
-								<acceptLicense>true</acceptLicense>
+<!--						<configuration>-->
+<!--							<features>-->
+<!--								<acceptLicense>true</acceptLicense>-->
 
-								<feature>${JSR309LibertyFeatureURL}</feature>
-							</features>
-						</configuration>
+<!--								<feature>${JSR309LibertyFeatureURL}</feature>-->
+<!--							</features>-->
+<!--						</configuration>-->
 
 					</execution>
 
