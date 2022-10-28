@@ -57,8 +57,6 @@
 								<acceptLicense>true</acceptLicense>
 								<feature>rtcomm-1.0</feature>
 								<feature>rtcommGateway-1.0</feature>
-								<feature>mediaServerControl-1.0</feature>
-								<feature>wab-1.0</feature>
 							</features>
 						</configuration>
 					</execution>
@@ -70,14 +68,6 @@
 						<goals>
 							<goal>install-feature</goal>
 						</goals>
-
-<!--						<configuration>-->
-<!--							<features>-->
-<!--								<acceptLicense>true</acceptLicense>-->
-
-<!--								<feature>${JSR309LibertyFeatureURL}</feature>-->
-<!--							</features>-->
-<!--						</configuration>-->
 
 					</execution>
 
