@@ -6,12 +6,8 @@
     <feature>rtcomm-1.0</feature>
     <feature>rtcommGateway-1.0</feature>
     <feature>sipServlet-1.1</feature>
-    <feature>localConnector-1.0</feature>
-    <feature>mediaServerControl-1.0</feature>
-    <!-- JSR309 Connector Feature -->
-    <feature>usr:com.vendor.dialogic.javax.media.mscontrol.LIBERTY.snapshot</feature>
 
-    </featureManager>
+  </featureManager>
 
   <!-- Rtcomm Configuration Details  -->
   <!-- Should configure to point to an available MQTT Broker -->
