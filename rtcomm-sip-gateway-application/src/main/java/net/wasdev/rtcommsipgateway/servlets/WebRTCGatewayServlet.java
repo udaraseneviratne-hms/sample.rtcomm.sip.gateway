@@ -37,8 +37,6 @@ public class WebRTCGatewayServlet extends SipServlet{
 	 */
 	protected void doInvite(SipServletRequest req) throws ServletException,
 	IOException {
-		req.getSession().setHandler(SipUtils.SERLVET_NAME);
-
 		System.out.println("####### Called DoInvite" + req.isInitial());
 		if (req.isInitial()) {
 			Proxy proxy = req.getProxy();
@@ -55,7 +53,7 @@ public class WebRTCGatewayServlet extends SipServlet{
 	@Override
 	protected void doSuccessResponse(SipServletResponse resp) throws ServletException,
 	IOException {
-
+		//IMPLEMENT THIS
 	}
 
 	@Override
@@ -81,7 +79,8 @@ public class WebRTCGatewayServlet extends SipServlet{
 	@Override
 	protected void doBye(SipServletRequest req) throws ServletException,
 	IOException {
-
+		System.out.println("SimpleProxyServlet: Got BYE request:");
+		super.doBye(req);
 	}
 
 	@Override
@@ -90,8 +89,21 @@ public class WebRTCGatewayServlet extends SipServlet{
 	}
 
 	@Override
+	protected void doResponse(SipServletResponse response)
+			throws ServletException, IOException {
+
+		System.out.println("SimpleProxyServlet: Got response:");
+		super.doResponse(response);
+	}
+
+	@Override
 	public void destroy() {
 
 	}
 
+	@Override
+	protected void doAck(SipServletRequest req) throws ServletException, IOException {
+		System.out.println("SimpleProxyServlet: doAck:" + req);
+		super.doAck(req);
+	}
 }

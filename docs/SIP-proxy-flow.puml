@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant SIP_Client_5080 as SIP_Client
+participant SIP_Proxy_5060 as SIP_Proxy
+participant SIP_Server_5090 as SIP_Server
+
+SIP_Client -> SIP_Proxy : INVITE sip:service@127.0.0.1:5090 SIP/2.0
+SIP_Proxy -> SIP_Server : INVITE sip:service@127.0.0.1:5090 SIP/2.0
+SIP_Server -> SIP_Proxy : SIP/2.0 180 Ringing
+SIP_Server -> SIP_Proxy : SIP/2.0 200 OK
+SIP_Proxy -> SIP_Client : SIP/2.0 180 Ringing
+SIP_Proxy -> SIP_Client : SIP/2.0 200 OK
+SIP_Client -> SIP_Proxy : ACK sip:service@127.0.0.1:5090 SIP/2.0
+SIP_Client -> SIP_Proxy : BYE sip:service@127.0.0.1:5090 SIP/2.0
+SIP_Proxy -> SIP_Client : SIP/2.0 481 Call/Transaction Does Not Exist
+SIP_Client -> SIP_Proxy : BYE sip:service@127.0.0.1:5090 SIP/2.0
+SIP_Proxy -> SIP_Client : SIP/2.0 481 Call/Transaction Does Not Exist
+
+
+@enduml

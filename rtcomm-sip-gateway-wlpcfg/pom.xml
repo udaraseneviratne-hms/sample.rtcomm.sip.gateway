@@ -53,11 +53,11 @@
 						</goals>
 
 						<configuration>
-							<features>
-								<acceptLicense>true</acceptLicense>
-								<feature>rtcomm-1.0</feature>
-								<feature>rtcommGateway-1.0</feature>
-							</features>
+<!--							<features>-->
+<!--								<acceptLicense>true</acceptLicense>-->
+<!--								<feature>rtcomm-1.0</feature>-->
+<!--								<feature>rtcommGateway-1.0</feature>-->
+<!--							</features>-->
 						</configuration>
 					</execution>
 

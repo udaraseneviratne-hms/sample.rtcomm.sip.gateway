@@ -3,27 +3,27 @@
   <!-- Enable features -->
   <featureManager>
 
-    <feature>rtcomm-1.0</feature>
-    <feature>rtcommGateway-1.0</feature>
+<!--    <feature>rtcomm-1.0</feature>-->
+<!--    <feature>rtcommGateway-1.0</feature>-->
     <feature>sipServlet-1.1</feature>
 
   </featureManager>
 
   <!-- Rtcomm Configuration Details  -->
   <!-- Should configure to point to an available MQTT Broker -->
-  <rtcomm messageServerHost="localhost" messageServerPort="1883" rtcommTopicPath="/rtcomm/">
-    <gateway allowFromSipEndpointRef="aa"/>
-    <iceServerURL>stun:stun.l.google.com:19302</iceServerURL>
-    <iceServerURL>stun:stun1.l.google.com:19302</iceServerURL>
-    <iceServerURL>stun:stun2.l.google.com:19302</iceServerURL>
-  </rtcomm>
+<!--  <rtcomm messageServerHost="localhost" messageServerPort="1883" rtcommTopicPath="/rtcomm/">-->
+<!--    <gateway allowFromSipEndpointRef="aa"/>-->
+<!--    <iceServerURL>stun:stun.l.google.com:19302</iceServerURL>-->
+<!--    <iceServerURL>stun:stun1.l.google.com:19302</iceServerURL>-->
+<!--    <iceServerURL>stun:stun2.l.google.com:19302</iceServerURL>-->
+<!--  </rtcomm>-->
 
   <!-- SIP Configuration -->
   <!-- sentByHost needs to be set to the public address of the machine-->
-  <sipStack sentByHost="x.x.x.x"/>
+<!--  <sipStack sentByHost="x.x.x.x"/>-->
 
-  <sipEndpoint host="*" id="aa" sipTCPPort="5068"/>
-  <sipEndpoint host="*" id="bb" sipTCPPort="5060"/>
+<!--  <sipEndpoint host="*" id="aa" sipTCPPort="5068"/>-->
+<!--  <sipEndpoint host="*" id="bb" sipTCPPort="5060"/>-->
 
   <!-- Enable Logging -->
   <logging traceSpecification="*=info:net.wasdev.webrtcgateway.*=all"/>
@@ -32,4 +32,25 @@
 
 
     <webApplication id="rtcomm-sip-gateway-application" location="rtcomm-sip-gateway-application.war" name="rtcomm-sip-gateway-application"/>
+
+
+
+  <sipContainer invalidateSessionOnShutdown="true" msgArrivalTimeAttr="true" markInternalResponse="true"/>
+  <sipStack sentByHost="x.x.x.x" hideMessageBody="true" hideMessageReqUri="true" auto100OnInvite="false" auto482OnMergedRequests="true" forceConnectionReuse="false" acceptNonUtf8Bytes="true" pathMtu="1600" compactHeaders="API">
+    <commaSeparatedHeaders>Comma separated headers</commaSeparatedHeaders>
+    <hideMessageHeaders>iup</hideMessageHeaders>
+    <sipQuotedParameters>Require</sipQuotedParameters>
+  </sipStack>
+  <sipStack timerT1="500" timerT2="4000" timerT4="5000" timerA="500" timerB="32000" timerD="32000" timerE="500" timerF="32000" timerG="500" timerH="32000" timerI="5000" timerJ="32000" timerK="5000"/>
+  <sipApplicationRouter sipDarConfiguration="dar.properties"/>
+  <sipEndpoint host="*" id="aa" sipTCPPort="5068"/>
+  <sipEndpoint host="*" id="bb" sipTCPPort="5060"/>
+  <sipContainer>
+    <sipTasksDispatcher concurrentContainerTasks="15"/>
+  </sipContainer>
+  <!--  Automatically expand WAR files and EAR files  -->
+  <applicationManager autoExpand="true"/>
+
+
+
 </server>
